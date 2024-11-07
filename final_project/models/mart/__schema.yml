@@ -36,7 +36,7 @@ models:
       - name: account_id
         data_type: integer
         constraints:
-          -type: primary_key
+          - type: unique
         description: "Unique identifier for the account."
       - name: account_name
         data_type: string
@@ -65,13 +65,16 @@ models:
       - name: transaction_id
         data_type: integer
         constraints:
-          -type: primary_key
+          - type: unique
         description: "Unique identifier for each transaction."
       - name: account_id
         data_type: integer
         constraints:
-          -type: not_null
-          description: "Unique identifier for the account related to the transaction."
+          - type: not_null
+          - type: foreign_key
+            to: ref('dim_accounts')
+            to_columns: account_id
+        description: "Unique identifier for the account related to the transaction."
       - name: transaction_date
         data_type: integer
         description: "Date of the transaction."

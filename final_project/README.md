@@ -83,3 +83,33 @@ CARGA Y GESTION DE FUENTES DE DATOS
 
 13- Al ser 2 tipos de cuenta (corriente, ahorro) y el tipo de cuenta ya esta cargado en la tabla.
 
+14- Creamos el macro reutilizable 'calculate_cumulative_balance.sql' para calcular balances acumulados y aplicar esta macro en la etapa intermediate.
+
+15- En este caso (a diferencia del ejercicio de repaso), no había una razón tan clara para utilizar la etapa de intermediate. Como buena practica decidimos utilizarla, generando 2 modelos :
+   int_accounts: 
+                  - Convertimos a int las fechas (generando la sk_date para la etapa posterior)
+
+   int_transactions_enriched:
+                  - Convertimos a int las fechas (generando la sk_date para la etapa posterior)
+                  - Con la ayuda del macro 'calculate_cumulative_balance.sql' generamos la columna 'cumulative_balance'.
+
+16- Luego pasamos a la capa Mart.
+Generamos los 3 modelos deseados:
+   - dim_accounts
+   - fact_transactions
+   - agg_daily_balances
+Además, se tomó la decisión de crear una dimensión de fecha, sumando una buena practica y agregando mas campos fecha posibles para el analisis posterior. Esto se realizó mediante el paquete: 'calogica/dbt_date' (https://github.com/calogica/dbt-date?tab=readme-ov-file#get_date_dimensionstart_date-end_date).
+
+Creamos el snapshots llamado snapshot_accounts.sql dentro de la carpeta snapshots, para guardar todos los cambios de las cuentas (cuenta, tipo de cuenta y balance).
+ 
+Agregamos en el schema.yml las pruebas automaticas de unicidad y no nulos para los campos account_id yt transaction_id
+Creamos una prueba personalizada llamada balance_more_than_zero.sql que dado un modelo y una columna generica testea si el balance es mayor que cero. Y a este test lo llamamos en el schema.yml.
+Agregamos en packages.yml el paquete calogica/dbt_expectations, luego corrimos dbt deps para instalarlo y agregamos en el schema de mart la prueba de que tengan al menos 1 fila.
+ 
+Agregamos contracts en el schema para asegurar la calidad y el formato de datos:
+ 
+Especificamos los tipos de datos en cada columna dentro de dim_accounts y fact_transactions. Esto asegura que los datos en las tablas cumplan con los formatos definidos en el data contract.
+Usamos foreign_key para que account_id en fact_transactions refiera a account_id en dim_accounts. Esto garantiza que todos los account_id en fact_transactions existan también en dim_accounts, asegurando consistencia entre las tablas.
+Definimos unique en account_id de dim_accounts y en transaction_id de fact_transactions, estableciendo que estas columnas sean claves primarias, asegurando unicidad y no nulos.
+
+Perfil y target.

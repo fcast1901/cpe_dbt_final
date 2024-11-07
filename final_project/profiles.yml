@@ -10,28 +10,10 @@ final_project:
       dbname: postgres
       schema: prd
       threads: 1
-    stg:
-      type: postgres
-      host: localhost
-      user: postgres
-      password: mysecretpassword
-      port: 5432
-      dbname: postgres
-      schema: stg
-      threads: 1
-    int:
-      type: postgres
-      host: localhost
-      user: postgres
-      password: mysecretpassword
-      port: 5432
-      dbname: postgres
-      schema: int
-      threads: 1
 dev_felipe:
   target: dev_felipe
   outputs:
-    dev:
+    dev_felipe:
       type: postgres
       host: localhost
       user: postgres
