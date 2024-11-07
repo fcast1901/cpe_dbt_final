@@ -1,0 +1,86 @@
+version: 2
+
+models:
+  - name: agg_daily_balances
+    description: "Calculates daily transactions and balance for each account."
+    tests:
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          severity: warn
+    config:
+      materialized: incremental
+      unique_key: account_id
+    columns:
+      - name: account_id
+        description: "Unique identifier for the account."
+      - name: transaction_date
+        description: "Date of the transaction."
+      - name: initial_balance
+        description: "Initial balance of the account at the start."
+      - name: daily_transactions
+        description: "Cumulative transactions for the day."
+      - name: daily_balance
+        description: "Calculated daily balance including initial balance."
+
+  - name: dim_accounts
+    description: "Contains detailed information about each account."
+    contracts:
+      - enforced: true
+    tests:
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          severity: warn
+    config:
+      materialized: table
+    columns:
+      - name: account_id
+        data_type: integer
+        constraints:
+          -type: primary_key
+        description: "Unique identifier for the account."
+      - name: account_name
+        data_type: string
+        description: "Name associated with the account."
+      - name: opening_date
+        data_type: integer
+        description: "Date when the account was opened."
+      - name: initial_balance
+        data_type: float
+        description: "Initial balance at account creation."
+      - name: account_type
+        data_type: string
+        description: "Type of account (e.g., checking, savings)."
+
+  - name: fact_transactions
+    description: "transaction data with cumulative balance."
+    contracts:
+      - enforced: true
+    tests:
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1 
+          severity: warn
+    config:
+      materialized: table
+    columns:
+      - name: transaction_id
+        data_type: integer
+        constraints:
+          -type: primary_key
+        description: "Unique identifier for each transaction."
+      - name: account_id
+        data_type: integer
+        constraints:
+          -type: not_null
+          description: "Unique identifier for the account related to the transaction."
+      - name: transaction_date
+        data_type: integer
+        description: "Date of the transaction."
+      - name: transaction_amount
+        data_type: float
+        description: "Amount involved in the transaction."
+      - name: transaction_type
+        data_type: string
+        description: "Type of transaction (e.g., deposit, withdrawal)."
+      - name: cumulative_balance
+        data_type: float
+        description: "Running balance of the account after the transaction."

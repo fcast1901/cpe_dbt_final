@@ -5,7 +5,7 @@ final_project:
       type: postgres
       host: localhost
       user: postgres
-      password: "{{ env_var('DBT_PASSWORD') }}"
+      password: mysecretpassword
       port: 5432
       dbname: postgres
       schema: prd
@@ -14,7 +14,7 @@ final_project:
       type: postgres
       host: localhost
       user: postgres
-      password: "{{ env_var('DBT_PASSWORD') }}"
+      password: mysecretpassword
       port: 5432
       dbname: postgres
       schema: stg
@@ -23,7 +23,7 @@ final_project:
       type: postgres
       host: localhost
       user: postgres
-      password: "{{ env_var('DBT_PASSWORD') }}"
+      password: mysecretpassword
       port: 5432
       dbname: postgres
       schema: int
@@ -35,7 +35,7 @@ dev_felipe:
       type: postgres
       host: localhost
       user: postgres
-      password: "{{ env_var('DBT_PASSWORD') }}"
+      password: mysecretpassword
       port: 5432
       dbname: postgres
       schema: dev_felipe

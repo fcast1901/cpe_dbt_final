@@ -3,4 +3,6 @@ packages:
     version: 1.3.0
   - package: calogica/dbt_date
     version: 0.9.0
-sha1_hash: ab6b646983fd168535100d9bcf0e5ef417aaa56e
+  - package: calogica/dbt_expectations
+    version: 0.10.4
+sha1_hash: 4cafb6b295cace7f200b3095dff857e3d6f0cff5

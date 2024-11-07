@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: account_types
+  - name: stg_account_types
     description: "Tabla que define los tipos de cuenta bancaria disponibles."
     columns:
       - name: account_type_id
@@ -9,11 +9,14 @@ models:
       - name: account_type_name
         description: "Nombre del tipo de cuenta (e.g., Ahorro, Corriente)."
 
-  - name: accounts
+  - name: stg_accounts
     description: "Tabla que contiene la información de cada cuenta bancaria de cliente."
     columns:
       - name: account_id
         description: "Identificador único de la cuenta bancaria."
+        data_tests:
+          - unique
+          - not_null
       - name: account_name
         description: "Nombre del cliente asociado a la cuenta."
       - name: account_type
@@ -22,12 +25,17 @@ models:
         description: "Fecha de apertura de la cuenta en formato YYYY-MM-DD."
       - name: balance
         description: "Saldo actual de la cuenta bancaria."
-
-  - name: transactions
+        tests:
+          - not_null
+          - balance_more_than_zero
+  - name: stg_transactions
     description: "Registro de todas las transacciones realizadas en las cuentas."
     columns:
       - name: transaction_id
         description: "Identificador único de la transacción."
+        data_tests:
+          - unique
+          - not_null
       - name: account_id
         description: "Identificador de la cuenta asociada a esta transacción."
       - name: transaction_date

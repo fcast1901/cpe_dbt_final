@@ -1,6 +1,7 @@
 {{ config(materialized='table') }}
 
-SELECT 
+SELECT
+    {{ dbt_utils.generate_surrogate_key(['transaction_id', 'account_id', 'transaction_date']) }} AS transaction_hash,
     transaction_id,
     account_id,
     transaction_date,
