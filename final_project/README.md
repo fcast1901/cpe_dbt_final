@@ -47,3 +47,39 @@ El escenario está basado en una compañía ficticia llamada **"FinCorp Analytic
 
 8. **Documentación**
    - Modifique este `README.md` dejando en la explicación de por qué tomo cada decisión en cada momento. 
+
+
+# Paso a paso realizado:
+CREACION Y CONFIGURACION DEL ENTORNO Y BASE DE DATOS
+ 
+1- Cree la carpeta: FinCorpAnalytics
+2- Cree el entorno virtual dentro de la carpeta: entorno_virtual_FinCorpAnalytics (python -m venv entorno_virtual_FinCorpAnalytics)
+3- Active el entorno virual: fui a \entorno_virtual_FinCorpAnalytics\Scripts y ejecute actuvate
+4- Instale dbt-core y dbt-postrgres: pip install dbt-core dbt-postgr
+5- Cree una instancia de postgres con docker: docker run -it --name FinCorpAnalytics-postgres -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+6- Inicie el proyecyto: dbt init
+	Which database would you like to use: 1
+	host: localhost
+	port: 5432
+	user: postgres
+	password: mysecretpassword
+	dbname: postgres
+	schema: public
+	threads: 1
+7- Ejecute para corroborar que quedo bien instalado, dentro de FinCorpAnalytics\entorno_virtual_FinCorpAnalytics\Scripts\DbtProject_FinCorpAnalytics: dbt build
+ 
+CARGA DE DATOS CSV A BASE POSTGRES
+ 
+8- Descargue los arhivos csv en computadora local
+9- Ejecute el siguiente script de python (import_data.py), que toma los datos de los csv y los inserta en la base de datos creada anteriormente.
+
+ 
+CARGA Y GESTION DE FUENTES DE DATOS
+ 
+10- Cree el archivo sources.yml y cargue los sources. Defini tambien las tablas en el archivo schema.yml
+11- Cargamos a staging la informacion de source, identificando cada columna para tolerar en un futuro un cambio de nombre de la source y no hacer que todo nuestros modelos se vean afectados.
+
+12- Pasamos a la etapa de procesamiento en intermediate.
+
+13- Al ser 2 tipos de cuenta (corriente, ahorro) y el tipo de cuenta ya esta cargado en la tabla.
+

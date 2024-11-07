@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: account_types
+    description: "Tabla que define los tipos de cuenta bancaria disponibles."
+    columns:
+      - name: account_type_id
+        description: "Identificador único para el tipo de cuenta."
+      - name: account_type_name
+        description: "Nombre del tipo de cuenta (e.g., Ahorro, Corriente)."
+
+  - name: accounts
+    description: "Tabla que contiene la información de cada cuenta bancaria de cliente."
+    columns:
+      - name: account_id
+        description: "Identificador único de la cuenta bancaria."
+      - name: account_name
+        description: "Nombre del cliente asociado a la cuenta."
+      - name: account_type
+        description: "Tipo de cuenta que referencia account_type_name."
+      - name: opening_date
+        description: "Fecha de apertura de la cuenta en formato YYYY-MM-DD."
+      - name: balance
+        description: "Saldo actual de la cuenta bancaria."
+
+  - name: transactions
+    description: "Registro de todas las transacciones realizadas en las cuentas."
+    columns:
+      - name: transaction_id
+        description: "Identificador único de la transacción."
+      - name: account_id
+        description: "Identificador de la cuenta asociada a esta transacción."
+      - name: transaction_date
+        description: "Fecha en que se realizó la transacción en formato YYYY-MM-DD."
+      - name: transaction_amount
+        description: "Monto de la transacción. Puede ser positivo para depósitos y negativo para retiros."
+      - name: transaction_type
+        description: "Tipo de transacción realizada (e.g., Depósito, Retiro)."

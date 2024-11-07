@@ -1,0 +1,42 @@
+final_project:
+  target: prd
+  outputs:
+    prd:
+      type: postgres
+      host: localhost
+      user: postgres
+      password: "{{ env_var('DBT_PASSWORD') }}"
+      port: 5432
+      dbname: postgres
+      schema: prd
+      threads: 1
+    stg:
+      type: postgres
+      host: localhost
+      user: postgres
+      password: "{{ env_var('DBT_PASSWORD') }}"
+      port: 5432
+      dbname: postgres
+      schema: stg
+      threads: 1
+    int:
+      type: postgres
+      host: localhost
+      user: postgres
+      password: "{{ env_var('DBT_PASSWORD') }}"
+      port: 5432
+      dbname: postgres
+      schema: int
+      threads: 1
+dev_felipe:
+  target: dev_felipe
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      user: postgres
+      password: "{{ env_var('DBT_PASSWORD') }}"
+      port: 5432
+      dbname: postgres
+      schema: dev_felipe
+      threads: 1

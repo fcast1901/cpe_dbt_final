@@ -1,0 +1,21 @@
+version: 2
+
+sources:
+  - name: 'raw'
+    description: "Fuente de datos bancarios que incluye tipos de cuenta, cuentas de clientes y transacciones."
+    database: postgres 
+    schema: public 
+
+    # Define the `account_type` table source
+    tables:
+      - name: account_types
+        description: "Tabla que define los tipos de cuenta bancaria."
+
+      # Define the `account` table source
+      - name: accounts
+        description: "Tabla con detalles de las cuentas bancarias de los clientes."
+
+      # Define the `transaction` table source
+      - name: transactions
+        description: "Registro de transacciones realizadas en cuentas bancarias de clientes."
+        
