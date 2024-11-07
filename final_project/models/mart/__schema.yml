@@ -3,7 +3,7 @@ version: 2
 models:
   - name: agg_daily_balances
     description: "Calculates daily transactions and balance for each account."
-    tests:
+    data_tests:
       - dbt_expectations.expect_table_row_count_to_be_between:
           min_value: 1 
           severity: warn
@@ -26,7 +26,7 @@ models:
     description: "Contains detailed information about each account."
     contracts:
       - enforced: true
-    tests:
+    data_tests:
       - dbt_expectations.expect_table_row_count_to_be_between:
           min_value: 1 
           severity: warn
@@ -55,7 +55,7 @@ models:
     description: "transaction data with cumulative balance."
     contracts:
       - enforced: true
-    tests:
+    data_tests:
       - dbt_expectations.expect_table_row_count_to_be_between:
           min_value: 1 
           severity: warn

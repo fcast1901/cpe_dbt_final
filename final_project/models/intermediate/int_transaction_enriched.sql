@@ -4,15 +4,23 @@ WITH transaction_details AS (
         t.account_id,
         t.transaction_date,
         t.transaction_amount,
-        t.transaction_type,
+        CASE 
+            WHEN t.transaction_amount < 0 THEN 'retiro' 
+            ELSE 'deposito'  
+        END AS transaction_type,
         COALESCE(a.initial_balance, 0) AS initial_balance,
-        COALESCE(SUM(t.transaction_amount) 
-            OVER (PARTITION BY t.account_id ORDER BY t.transaction_date 
-            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW), 0) AS cumulative_balance
+        {{ calculate_cumulative_balance('t.account_id', 't.transaction_date', 't.transaction_amount') }} AS cumulative_balance
     FROM {{ ref('stg_transactions') }} AS t
     LEFT JOIN {{ ref('int_accounts') }} AS a
     ON t.account_id = a.account_id
 )
 
-SELECT * 
+SELECT 
+    transaction_id,
+    account_id,
+    transaction_date,
+    transaction_amount,
+    transaction_type,
+    initial_balance,
+    cumulative_balance
 FROM transaction_details
